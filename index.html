@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>シンプル・タワーディフェンス</title>
+    <style>
+        body { text-align: center; font-family: sans-serif; background: #e0f7fa; }
+        #field {
+            width: 600px;
+            height: 200px;
+            background: #ffffff;
+            border: 3px solid #333;
+            margin: 20px auto;
+            position: relative;
+            overflow: hidden;
+        }
+        .chara {
+            position: absolute;
+            bottom: 20px;
+            font-size: 30px;
+        }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h1>ミニ・タワーディフェンス</h1>
+    <p>「出撃」ボタンを押して味方を送り出そう！</p>
+    
+    <div id="field">
+        <!-- キャラクターが歩いていくフィールド -->
+    </div>
+
+    <button onclick="spawnChara()">味方を出撃！</button>
+
+    <script>
+        function spawnChara() {
+            const field = document.getElementById('field');
+            
+            // キャラクター（猫の絵文字など）を作る
+            const chara = document.createElement('div');
+            chara.className = 'chara';
+            chara.textContent = '🐈';
+            chara.style.left = '0px';
+            
+            field.appendChild(chara);
+
+            // 右へ歩かせるアニメーション
+            let pos = 0;
+            const moveTimer = setInterval(() => {
+                pos += 3;
+                chara.style.left = pos + 'px';
+                
+                // 画面の端（右側）に着いたら止まる
+                if (pos > 550) {
+                    clearInterval(moveTimer);
+                }
+            }, 30);
+        }
+    </script>
+
+</body>
+</html>
