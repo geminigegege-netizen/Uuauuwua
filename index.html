@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>シンプル・タワーディフェンス</title>
+    <title>ミニ・タワーディフェンス</title>
     <style>
         body { text-align: center; font-family: sans-serif; background: #e0f7fa; }
         #field {
@@ -14,7 +14,7 @@
             position: relative;
             overflow: hidden;
         }
-        .chara {
+        .unit {
             position: absolute;
             bottom: 20px;
             font-size: 30px;
@@ -25,35 +25,56 @@
 <body>
 
     <h1>ミニ・タワーディフェンス</h1>
-    <p>「出撃」ボタンを押して味方を送り出そう！</p>
+    <p>「味方出撃」を押して敵を倒そう！</p>
     
-    <div id="field">
-        <!-- キャラクターが歩いていくフィールド -->
-    </div>
+    <div id="field"></div>
 
-    <button onclick="spawnChara()">味方を出撃！</button>
+    <button onclick="spawnAlly()">味方出撃！ 🐈</button>
+    <button onclick="spawnEnemy()">敵出現！ 🦍</button>
 
     <script>
-        function spawnChara() {
-            const field = document.getElementById('field');
-            
-            // キャラクター（猫の絵文字など）を作る
-            const chara = document.createElement('div');
-            chara.className = 'chara';
-            chara.textContent = '🐈';
-            chara.style.left = '0px';
-            
-            field.appendChild(chara);
+        const field = document.getElementById('field');
 
-            // 右へ歩かせるアニメーション
+        // 味方（ネコ）を出す関数
+        function spawnAlly() {
+            const ally = document.createElement('div');
+            ally.className = 'unit';
+            ally.textContent = '🐈';
             let pos = 0;
-            const moveTimer = setInterval(() => {
-                pos += 3;
-                chara.style.left = pos + 'px';
-                
-                // 画面の端（右側）に着いたら止まる
-                if (pos > 550) {
-                    clearInterval(moveTimer);
+            ally.style.left = pos + 'px';
+            field.appendChild(ally);
+
+            // 右へ進む
+            const timer = setInterval(() => {
+                pos += 2;
+                ally.style.left = pos + 'px';
+
+                // 画面の真ん中あたり（300px）で止まる（敵と戦うイメージ）
+                if (pos >= 280) {
+                    clearInterval(timer);
+                    ally.textContent = '⚔️🐈'; // 戦闘中ぽくする
+                }
+            }, 30);
+        }
+
+        // 敵（ゴリラ）を出す関数
+        function spawnEnemy() {
+            const enemy = document.createElement('div');
+            enemy.className = 'unit';
+            enemy.textContent = '🦍';
+            let pos = 550;
+            enemy.style.left = pos + 'px';
+            field.appendChild(enemy);
+
+            // 左へ進む
+            const timer = setInterval(() => {
+                pos -= 2;
+                enemy.style.left = pos + 'px';
+
+                // 真ん中あたりで止まる
+                if (pos <= 320) {
+                    clearInterval(timer);
+                    enemy.textContent = '🦍⚔️';
                 }
             }, 30);
         }
